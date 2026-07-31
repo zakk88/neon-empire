@@ -203,3 +203,18 @@
   }, { threshold: 0.2 });
   io.observe(panel);
 })();
+
+// [NE] Enforcers page: build the segmented presence meters from data attrs.
+(function () {
+  document.querySelectorAll(".seg-meter").forEach(function (meter) {
+    var total = parseInt(meter.dataset.total || "14", 10);
+    var fill = parseInt(meter.dataset.fill || "0", 10);
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < total; i++) {
+      var seg = document.createElement("i");
+      if (i < fill) seg.className = "on";
+      frag.appendChild(seg);
+    }
+    meter.appendChild(frag);
+  });
+})();

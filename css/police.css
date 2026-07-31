@@ -1,0 +1,333 @@
+/* ============================================================
+   NEON EMPIRE — Police Force characters
+   Blue counterpart to the crimson Enforcers page: faction dossier
+   on the left, four full-body character columns on the right.
+   ============================================================ */
+
+.pol-page {
+  padding: 26px 34px 44px;
+  background:
+    radial-gradient(
+      1100px 640px at 60% 0%,
+      rgba(0, 145, 255, 0.09),
+      transparent 62%
+    ),
+    var(--bg);
+}
+
+.pol-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+
+.pol-back:hover {
+  color: var(--blue);
+}
+
+.pol-layout {
+  display: grid;
+  /* wider than its panels so the display title clears the badge on one line */
+  grid-template-columns: minmax(300px, 460px) minmax(0, 1fr);
+  gap: 46px;
+  align-items: start;
+}
+
+/* ---------- left: faction dossier ---------- */
+
+.pol-ident {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+}
+
+.pol-badge {
+  width: 96px;
+  height: 106px;
+  color: var(--blue);
+  filter: drop-shadow(0 0 14px rgba(56, 160, 255, 0.5));
+}
+
+.pol-title {
+  font-size: clamp(40px, 4.1vw, 60px);
+  line-height: 0.94;
+  white-space: nowrap;
+}
+
+.pol-tagline {
+  font-family: var(--font-mono);
+  font-size: clamp(13px, 1.35vw, 19px);
+  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--blue);
+  margin-top: 10px;
+}
+
+.pol-lede {
+  margin-top: 24px;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: #c9c7bf;
+  max-width: 400px;
+}
+
+.pol-lede + .pol-lede {
+  margin-top: 16px;
+}
+
+/* attribute grid — mirrors the character page */
+.pol-attrs {
+  display: grid;
+  max-width: 400px;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(8, 12, 20, 0.6);
+  margin-top: 28px;
+}
+
+.pol-attr {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.pol-attr:nth-child(odd) {
+  border-right: 1px solid var(--line-soft);
+}
+.pol-attr:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.pol-attr .icon {
+  width: 21px;
+  height: 21px;
+  color: var(--blue);
+  flex: none;
+}
+.pol-attr .icon.pink {
+  color: var(--pink);
+}
+
+.pol-attr .lbl {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--dim);
+}
+
+.pol-attr .val {
+  font-size: 13.5px;
+  color: var(--text);
+  margin-top: 3px;
+}
+
+.pol-quote {
+  position: relative;
+  max-width: 400px;
+  margin-top: 26px;
+  padding: 22px 46px;
+  border: 1px solid rgba(56, 160, 255, 0.5);
+  border-radius: 4px;
+  background: rgba(56, 160, 255, 0.05);
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.pol-quote .q-mark {
+  position: absolute;
+  font-family: Georgia, serif;
+  font-size: 30px;
+  color: var(--blue);
+  font-style: normal;
+  line-height: 1;
+}
+
+.pol-quote .q-open {
+  top: 14px;
+  left: 16px;
+}
+.pol-quote .q-close {
+  bottom: 4px;
+  right: 16px;
+}
+
+.pol-intel {
+  display: flex;
+  max-width: 400px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 28px;
+  padding: 19px 26px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--blue);
+  color: #04131f;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  cursor: pointer;
+  box-shadow: 0 0 26px rgba(56, 160, 255, 0.3);
+}
+
+.pol-intel:hover {
+  background: #57b4ff;
+}
+
+/* ---------- right: four character columns ---------- */
+
+.pol-roster {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.cop {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(56, 160, 255, 0.28);
+  border-radius: 6px;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 18, 30, 0.7),
+    rgba(8, 10, 16, 0.35)
+  );
+  overflow: hidden;
+}
+
+.cop-head {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 14px 14px 10px;
+}
+
+.cop-head .icon {
+  width: 26px;
+  height: 26px;
+  color: var(--blue);
+}
+
+.cop-name {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--bone);
+  text-transform: uppercase;
+}
+
+.cop-role {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--blue);
+  margin-top: 4px;
+}
+
+.cop-art {
+  width: 100%;
+  aspect-ratio: 1 / 2;
+  object-fit: cover;
+  object-position: center top;
+  -webkit-mask-image: linear-gradient(180deg, #000 90%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 90%, transparent 100%);
+}
+
+.cop-spec,
+.cop-traits {
+  margin: 0 12px 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(8, 12, 20, 0.65);
+}
+
+.cop-spec {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.cop-spec .icon {
+  width: 24px;
+  height: 24px;
+  color: var(--blue);
+}
+
+.cop-spec .lbl,
+.cop-traits .lbl {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--dim);
+}
+
+.cop-spec .val {
+  font-size: 13px;
+  color: var(--text);
+  margin-top: 3px;
+}
+
+.cop-traits {
+  margin-top: 0;
+}
+
+.cop-traits ul {
+  margin-top: 8px;
+}
+
+.cop-traits li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 12.5px;
+  line-height: 1.85;
+  color: #b9b7b0;
+}
+
+.cop-traits li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+@media (max-width: 1200px) {
+  .pol-layout {
+    grid-template-columns: 1fr;
+  }
+  .pol-roster {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .pol-roster {
+    grid-template-columns: 1fr;
+  }
+  .pol-page {
+    padding: 20px 18px 32px;
+  }
+  .cop-art {
+    aspect-ratio: 3 / 4;
+  }
+}
