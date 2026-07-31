@@ -359,10 +359,10 @@ body > section.section {
    the page without exposing edges; JS drives the transforms --- */
 
 .hero .hero-bg {
-  /* Oversize supplies the parallax travel slack. Keep it modest so a 16:9
-     source isn't upscaled far past the frame and cropped at the sides. */
-  height: 120%;
-  top: -10%;
+  /* Oversize supplies the parallax travel slack. Sized for a 4:3 source,
+     which covers this taller box with minimal side cropping. */
+  height: 150%;
+  top: -25%;
   will-change: transform;
 }
 

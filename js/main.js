@@ -46,8 +46,8 @@
 
   function apply() {
     ticking = false;
-    // Backdrop moves at ~20% of scroll speed; capped by the 10% oversize slack.
-    var drift = Math.min(window.scrollY * 0.2, hero.parentElement.getBoundingClientRect().height * 0.09);
+    // Backdrop moves at ~20% of scroll speed; capped by the 25% oversize slack.
+    var drift = Math.min(window.scrollY * 0.2, hero.parentElement.getBoundingClientRect().height * 0.24);
     hero.style.transform = "translateY(" + drift + "px)";
     items.forEach(function (el) {
       var r = el.getBoundingClientRect();
