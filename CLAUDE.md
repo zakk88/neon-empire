@@ -83,6 +83,8 @@ Target 2× the CSS display size (measure it in the browser first). Typical: 5.8 
 
 ## Current State
 
+**2026-07-31:** Empire status panel now plays a boot sequence on first view (`css/home.css` `ep-*` keyframes + the boot block in `js/main.js`): scanline sweep, map territory drops in and blooms outward via animated `clip-path`, stat rows stagger, bars overshoot then settle with a hot leading edge, numbers count up, sparkline draws. Initial hidden states are scoped to `html.anim` (set by an inline head script) so the panel renders complete without JS or under reduced-motion. The count-up has a guaranteed-settle timeout because `requestAnimationFrame` is suspended in background tabs, and the boot has a 1.5s fallback so an always-hidden embed can never strand the panel at opacity 0.
+
 **2026-07-30 (later):** Published to GitHub Pages (repo created, first commit, Pages enabled, all 5 pages + assets verified live). Home hero, factions, gameplay, and world scenes are now looping videos. Home page got scroll-snap + parallax (hero backdrop drifts at 20% of scroll; oversize reduced to 120% so a 16:9 source shows ~80% of its width) and a gritty fixed-attachment `grit.webp` backdrop behind the lower sections. District rail on gameplay is interactive: pink glow on hover, cyan when selected, drawn with inset shadows so the boxes never resize.
 
 **2026-07-30:** Home page extended with the below-the-fold sections from the cyberpunk-empire home (accordion, districts grid, four-dials grid, contact cards) between the hero and the status bar; site capped at 1440px wide and centered; world.html overview band moved under the scene image.

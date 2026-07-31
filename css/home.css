@@ -385,3 +385,250 @@ body > section.section {
   background-attachment: fixed;
   background-size: auto, 620px;
 }
+
+/* ============================================================
+   EMPIRE STATUS — boot sequence
+   The panel powers on like a HUD: scanline sweep, map territory
+   drops in and blooms, then stat rows calibrate one by one.
+   Initial states are scoped to html.anim (set by an inline script
+   only when JS runs and motion is allowed), so the panel renders
+   complete if scripts fail or reduced-motion is on.
+   ============================================================ */
+
+.empire-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.anim .empire-panel {
+  opacity: 0;
+}
+.anim .empire-panel .stat-row {
+  opacity: 0;
+  transform: translateX(-16px);
+}
+.anim .empire-panel .stat-meter i {
+  width: 0;
+}
+.anim .empire-panel .map-base,
+.anim .empire-panel .map-pink,
+.anim .empire-panel .map-meta,
+.anim .empire-panel .panel-foot {
+  opacity: 0;
+}
+.anim .empire-panel .sparkline path {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+}
+
+/* --- panel powers on --- */
+
+.empire-panel.boot {
+  animation: ep-panel-in 0.55s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+
+@keyframes ep-panel-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* cyan scanline sweeps down the panel once */
+.empire-panel.boot::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 140px;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(0, 229, 255, 0.13) 55%, rgba(0, 229, 255, 0.5) 72%, transparent);
+  animation: ep-scan 1.15s ease-out 0.12s both;
+}
+
+@keyframes ep-scan {
+  0% { top: -140px; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* --- territory map: grid first, then the pink drops in and blooms out --- */
+
+.map-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.map-frame .map-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 0;
+}
+
+/* the "empty" grid underneath */
+.map-base {
+  filter: grayscale(1) brightness(0.45) contrast(1.1);
+}
+
+.empire-panel.boot .map-base {
+  animation: ep-fade 0.5s ease 0.45s forwards;
+}
+
+/* falls from above, lands small at centre, then expands to fill */
+.empire-panel.boot .map-pink {
+  animation: ep-map-drop 1.05s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards;
+}
+
+@keyframes ep-map-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-55%) scale(1.18);
+    clip-path: circle(0% at 50% 30%);
+    filter: brightness(2.2) saturate(1.6);
+  }
+  38% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    clip-path: circle(9% at 50% 50%);
+    filter: brightness(1.9) saturate(1.5);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    clip-path: circle(78% at 50% 50%);
+    filter: none;
+  }
+}
+
+/* impact bloom at the moment it lands */
+.map-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 45, 120, 0.65), rgba(255, 45, 120, 0.12) 45%, transparent 70%);
+}
+
+.empire-panel.boot .map-frame::after {
+  animation: ep-flash 0.75s ease-out 1.24s forwards;
+}
+
+@keyframes ep-flash {
+  0% { opacity: 0; }
+  18% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.empire-panel.boot .map-meta {
+  animation: ep-fade 0.5s ease 1.75s forwards;
+}
+
+/* --- stat rows slide in, staggered --- */
+
+.empire-panel.boot .stat-row {
+  animation: ep-row-in 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+
+.empire-panel.boot .stat-row:nth-child(1) { animation-delay: 0.5s; }
+.empire-panel.boot .stat-row:nth-child(2) { animation-delay: 0.63s; }
+.empire-panel.boot .stat-row:nth-child(3) { animation-delay: 0.76s; }
+.empire-panel.boot .stat-row:nth-child(4) { animation-delay: 0.89s; }
+
+@keyframes ep-row-in {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* --- bars sweep to target, overshoot slightly, settle (gauge calibrating) --- */
+
+.stat-meter {
+  position: relative;
+}
+
+.stat-meter i {
+  position: relative;
+  overflow: visible;
+}
+
+.empire-panel.boot .stat-meter i {
+  animation: ep-bar-fill 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.empire-panel.boot .stat-row:nth-child(1) .stat-meter i { animation-delay: 0.6s; }
+.empire-panel.boot .stat-row:nth-child(2) .stat-meter i { animation-delay: 0.73s; }
+.empire-panel.boot .stat-row:nth-child(3) .stat-meter i { animation-delay: 0.86s; }
+.empire-panel.boot .stat-row:nth-child(4) .stat-meter i { animation-delay: 0.99s; }
+
+@keyframes ep-bar-fill {
+  0% { width: 0; filter: brightness(2.4); }
+  72% { width: calc(var(--fill) * 1.07); filter: brightness(1.5); }
+  100% { width: var(--fill); filter: none; }
+}
+
+/* hot leading edge that rides the fill and burns out at the end */
+.stat-meter i::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -3px;
+  bottom: -3px;
+  width: 7px;
+  border-radius: 2px;
+  background: #fff;
+  filter: blur(2.5px);
+  opacity: 0;
+}
+
+.empire-panel.boot .stat-meter i::after {
+  animation: ep-edge 1s ease-out forwards;
+  animation-delay: inherit;
+}
+
+.empire-panel.boot .stat-row:nth-child(1) .stat-meter i::after { animation-delay: 0.6s; }
+.empire-panel.boot .stat-row:nth-child(2) .stat-meter i::after { animation-delay: 0.73s; }
+.empire-panel.boot .stat-row:nth-child(3) .stat-meter i::after { animation-delay: 0.86s; }
+.empire-panel.boot .stat-row:nth-child(4) .stat-meter i::after { animation-delay: 0.99s; }
+
+@keyframes ep-edge {
+  0% { opacity: 0; }
+  12% { opacity: 0.95; }
+  70% { opacity: 0.75; }
+  100% { opacity: 0; }
+}
+
+/* --- sparkline draws itself, footer fades up --- */
+
+.empire-panel.boot .panel-foot {
+  animation: ep-fade 0.5s ease 1.6s forwards;
+}
+
+.empire-panel.boot .sparkline path {
+  animation: ep-draw 1.1s ease-out 1.7s forwards;
+}
+
+@keyframes ep-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* --- ambient: the live dot keeps breathing once booted --- */
+
+.empire-panel.boot .panel-head .dot {
+  animation: ep-pulse 2.4s ease-in-out 1.4s infinite;
+}
+
+@keyframes ep-pulse {
+  0%, 100% { box-shadow: 0 0 8px var(--cyan); opacity: 1; }
+  50% { box-shadow: 0 0 16px var(--cyan); opacity: 0.55; }
+}
+
+@keyframes ep-fade {
+  to { opacity: 1; }
+}

@@ -79,3 +79,96 @@
     });
   });
 })();
+
+// [NE] Empire status boot sequence: fires once when the panel is in view.
+// CSS drives the panel/map/bar animations; this handles the number count-ups
+// and starts everything at the right moment.
+(function () {
+  var panel = document.querySelector(".empire-panel");
+  if (!panel) return;
+  // html.anim is only set when JS runs and motion is allowed — if it's absent
+  // the panel is already in its final state, so leave it alone.
+  if (!document.documentElement.classList.contains("anim")) return;
+
+  var counts = panel.querySelectorAll(".count");
+  // Bar delays in CSS: 0.60 / 0.73 / 0.86 / 0.99s. Numbers ride alongside.
+  var startDelays = [600, 730, 860, 990];
+  var DURATION = 1000;
+
+  function decimals(el) {
+    return parseInt(el.dataset.dec || "0", 10);
+  }
+
+  function settle(el) {
+    el.textContent = parseFloat(el.dataset.to).toFixed(decimals(el));
+  }
+
+  function countUp(el, delay) {
+    var to = parseFloat(el.dataset.to);
+    var dec = decimals(el);
+    var done = false;
+    setTimeout(function () {
+      var t0 = null;
+      function step(t) {
+        if (done) return;
+        if (t0 === null) t0 = t;
+        var p = Math.min((t - t0) / DURATION, 1);
+        // easeOutQuint — matches the bars' fast-then-settle feel
+        var eased = 1 - Math.pow(1 - p, 5);
+        el.textContent = (to * eased).toFixed(dec);
+        if (p < 1) requestAnimationFrame(step);
+        else { done = true; settle(el); }
+      }
+      requestAnimationFrame(step);
+    }, delay);
+    // rAF is suspended in background tabs, which would strand the number at 0.
+    // Guarantee the final value lands regardless.
+    setTimeout(function () {
+      if (!done) { done = true; settle(el); }
+    }, delay + DURATION + 250);
+  }
+
+  function boot() {
+    panel.classList.add("boot");
+    counts.forEach(function (el, i) {
+      countUp(el, startDelays[i] || 600);
+    });
+  }
+
+  // Zero the numbers immediately so they never flash their final value.
+  counts.forEach(function (el) {
+    el.textContent = (0).toFixed(decimals(el));
+  });
+
+  // Hold the sequence until the tab is actually visible, so a page opened in a
+  // background tab still plays its boot when the user switches to it.
+  function whenVisible(run) {
+    if (!document.hidden) return run();
+    var fired = false;
+    function go() {
+      if (fired) return;
+      fired = true;
+      run();
+    }
+    document.addEventListener("visibilitychange", function onVis() {
+      if (!document.hidden) {
+        document.removeEventListener("visibilitychange", onVis);
+        go();
+      }
+    });
+    // Some embedded contexts (preview panes, webviews) report hidden
+    // indefinitely — never leave the panel stranded at opacity 0.
+    setTimeout(go, 1500);
+  }
+
+  if (!("IntersectionObserver" in window)) return whenVisible(boot);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        io.disconnect();
+        whenVisible(boot);
+      }
+    });
+  }, { threshold: 0.2 });
+  io.observe(panel);
+})();
