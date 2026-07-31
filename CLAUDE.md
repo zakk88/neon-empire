@@ -105,6 +105,7 @@ Target 2× the CSS display size (measure it in the browser first). Typical: 5.8 
 - Diffui high-quality generations often return HTTP 524 (gateway timeout) on first attempt — retry, they usually succeed.
 - Keep pages framework-free; all icons are inline SVG.
 - **Nav order is fixed: WORLD / FACTIONS / GAMEPLAY / MEDIA** across every page, even when a new design render shows a different order.
+- `character.html`'s back-link reads "BACK TO FACTIONS", not the design render's "BACK TO CHARACTERS" — a deliberate deviation so all three dossiers match and the label names its real destination (the hub).
 
 ## Testing Checklist
 
@@ -117,7 +118,6 @@ Target 2× the CSS display size (measure it in the browser first). Typical: 5.8 
 ## Tech Debt & Known Issues
 
 - Nav tabs (ABILITIES / LORE / RELATIONSHIPS on character page), WISHLIST, and trailer buttons are non-functional placeholders — the design defines no targets.
-- `character.html`'s back-link still reads "BACK TO CHARACTERS" (its design render's wording) but now points at the Factions hub, so the label doesn't quite match the destination. Left as-is because the design PNG is the spec; change the copy to "BACK TO FACTIONS" if consistency with the other two dossiers matters more.
 - The gameplay scene video is sourced from 720p footage, so it renders softer than the other three (1080p+). Re-render at 1080p+ to match.
 - `design/` (11 MB) ships to production unlinked. Harmless, but it's half the deploy size — exclude it if load time ever matters.
 - Browser-pane screenshots render this site downscaled at some viewport sizes; it's a preview-tool artifact, not a site bug.
