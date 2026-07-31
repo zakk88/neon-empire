@@ -1,0 +1,272 @@
+/* ============================================================
+   NEON EMPIRE — environment detail (Crown Heights)
+   ============================================================ */
+
+.env-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
+  gap: 34px;
+  padding: 34px 24px 34px 34px;
+  align-items: start;
+}
+
+/* --- sidebar --- */
+
+.env-side {
+  font-family: var(--font-mono);
+}
+
+.env-kicker {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.env-title {
+  font-size: clamp(44px, 4vw, 62px);
+}
+
+.env-sub {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  color: var(--cyan);
+  margin: 14px 0 20px;
+}
+
+.env-side .env-lede {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: #b9b7b0;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line-soft);
+  margin-bottom: 22px;
+}
+
+.env-cond {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.cond-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.cond-row .icon-lg {
+  color: var(--text);
+  width: 26px;
+  height: 26px;
+}
+
+.cond-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--text);
+}
+
+.cond-value {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.cond-value.hot {
+  color: var(--pink);
+}
+
+.threat-meter {
+  display: inline-flex;
+  gap: 3px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.threat-meter i {
+  width: 12px;
+  height: 9px;
+  background: #1a1d27;
+  border: 1px solid var(--line);
+}
+
+.threat-meter i.on {
+  background: var(--pink);
+  border-color: var(--pink);
+}
+
+.env-locs {
+  padding: 22px 0;
+}
+
+.env-locs-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--bone);
+  margin-bottom: 18px;
+}
+
+.loc-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.loc-row .icon {
+  color: var(--text);
+  width: 22px;
+  height: 22px;
+}
+
+.loc-name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--cyan);
+}
+
+.loc-note {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--dim);
+  margin-top: 4px;
+}
+
+.env-map-btn {
+  width: 100%;
+}
+
+/* --- main scene --- */
+
+.env-right {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0;
+}
+
+.env-scene {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  min-height: 560px;
+  position: relative;
+}
+
+.env-scene img,
+.env-scene video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- overview band --- */
+
+.env-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) 220px minmax(0, 1fr);
+  gap: 34px;
+  margin: 0;
+  border: 1px solid var(--line);
+  padding: 26px 30px;
+  background: rgba(8, 10, 15, 0.6);
+}
+
+.band-title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--cyan);
+  margin-bottom: 16px;
+}
+
+.env-band p {
+  font-size: 13.5px;
+  color: #b9b7b0;
+  margin-bottom: 14px;
+  max-width: 62ch;
+}
+.env-band p:last-child {
+  margin-bottom: 0;
+}
+
+.band-map {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--dim);
+}
+
+.band-map img {
+  width: 190px;
+  height: 190px;
+  object-fit: cover;
+  border: 1px solid var(--line-soft);
+}
+
+.band-map .chev {
+  cursor: pointer;
+}
+.band-map .chev:hover {
+  color: var(--text);
+}
+
+.dstat-list {
+  font-family: var(--font-mono);
+}
+
+.dstat-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+.dstat-row:last-child {
+  border-bottom: 0;
+}
+.dstat-row .icon {
+  width: 17px;
+  height: 17px;
+  color: var(--text);
+}
+.dstat-row .k {
+  flex: 1;
+}
+.dstat-row .v {
+  color: var(--text);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* --- footer accents --- */
+
+.gov {
+  color: var(--pink);
+}
+
+@media (max-width: 1100px) {
+  .env-layout {
+    grid-template-columns: 1fr;
+    padding: 28px 20px;
+  }
+  .env-band {
+    grid-template-columns: 1fr;
+  }
+  .env-scene {
+    min-height: 380px;
+  }
+}

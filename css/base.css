@@ -1,0 +1,364 @@
+/* ============================================================
+   NEON EMPIRE — shared foundation: tokens, nav, footer, common
+   ============================================================ */
+
+:root {
+  --bg: #05060a;
+  --bg-2: #0a0c12;
+  --panel: rgba(10, 12, 18, 0.82);
+  --line: #20242e;
+  --line-soft: #161a22;
+  --cyan: #00e5ff;
+  --pink: #ff2d78;
+  --purple: #8b5cf6;
+  --yellow: #ffc233;
+  --red: #ff3b3b;
+  --text: #e8e6df;
+  --bone: #e5e0d1;
+  --muted: #8a8f9a;
+  --dim: #5a5f6a;
+  --font-display: "Anton", "Arial Narrow", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  /* Site is designed at 1440px — never grow wider; center in larger windows. */
+  max-width: 1440px;
+  margin: 0 auto;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+ul {
+  list-style: none;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* ---------- top navigation ---------- */
+
+.site-nav {
+  display: flex;
+  align-items: stretch;
+  height: 92px;
+  background: #07080d;
+  border-bottom: 1px solid var(--line-soft);
+  font-family: var(--font-mono);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 28px;
+  border-right: 1px solid var(--line-soft);
+}
+
+.nav-logo {
+  width: 46px;
+  height: 46px;
+  color: var(--text);
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.45em;
+  color: var(--text);
+}
+
+.brand-tag {
+  margin-top: 6px;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--cyan);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 52px;
+  padding: 0 48px;
+  flex: 1;
+}
+
+.nav-links a {
+  display: block;
+}
+
+.nav-links .nav-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--text);
+}
+
+.nav-links .nav-num {
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--dim);
+}
+
+.nav-links a:hover .nav-label,
+.nav-links a.active .nav-label {
+  color: var(--cyan);
+}
+
+.nav-links a.active {
+  position: relative;
+}
+
+.nav-links a.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 8px;
+  bottom: -14px;
+  height: 2px;
+  background: var(--cyan);
+}
+
+.nav-session {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 32px;
+  border-left: 1px solid var(--line-soft);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.nav-session .accent {
+  color: var(--cyan);
+}
+
+.nav-reticle {
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  border-left: 1px solid var(--line-soft);
+  color: var(--cyan);
+}
+
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  margin: 22px 24px;
+  padding: 0 30px;
+  background: var(--cyan);
+  color: #041014;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  white-space: nowrap;
+}
+
+.nav-cta:hover {
+  background: #4df0ff;
+}
+
+/* ---------- buttons ---------- */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 40px;
+  padding: 20px 34px;
+  background: var(--cyan);
+  color: #041014;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  border: 0;
+  cursor: pointer;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    0 100%
+  );
+}
+
+.btn-primary:hover {
+  background: #4df0ff;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 26px;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn-ghost:hover {
+  color: var(--cyan);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 13px 22px;
+  background: transparent;
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  background: rgba(0, 229, 255, 0.08);
+}
+
+/* ---------- shared bits ---------- */
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--cyan);
+}
+
+.display {
+  font-family: var(--font-display);
+  color: var(--bone);
+  text-transform: uppercase;
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.icon-lg {
+  width: 30px;
+  height: 30px;
+  flex: none;
+}
+
+/* ---------- status footer bar ---------- */
+
+.status-bar {
+  display: flex;
+  align-items: stretch;
+  background: #07080d;
+  border-top: 1px solid var(--line-soft);
+  font-family: var(--font-mono);
+  min-height: 96px;
+}
+
+.status-cell {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 30px;
+  border-right: 1px solid var(--line-soft);
+  flex: 1;
+}
+
+.status-cell:last-child {
+  border-right: 0;
+}
+
+.status-cell .cell-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  margin-bottom: 6px;
+}
+
+.status-cell .cell-line {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+@media (max-width: 1100px) {
+  .nav-session,
+  .nav-reticle {
+    display: none;
+  }
+  .nav-links {
+    gap: 28px;
+    padding: 0 24px;
+  }
+  .status-bar {
+    flex-wrap: wrap;
+  }
+  .status-cell {
+    flex: 1 1 40%;
+    border-bottom: 1px solid var(--line-soft);
+  }
+}
+
+@media (max-width: 720px) {
+  .site-nav {
+    height: auto;
+    flex-wrap: wrap;
+  }
+  .nav-brand {
+    padding: 16px 20px;
+    border-right: 0;
+  }
+  .nav-cta {
+    margin: 14px 20px;
+    padding: 14px 20px;
+  }
+  .nav-links {
+    order: 3;
+    flex-basis: 100%;
+    padding: 0 20px 16px;
+    gap: 22px;
+  }
+  .nav-links a.active::after {
+    bottom: -6px;
+  }
+}

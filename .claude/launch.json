@@ -1,0 +1,25 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "neon-empire",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8642", "--bind", "127.0.0.1"],
+      "port": 8642
+    },
+    {
+      "name": "cyberpunk-empire",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8643",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "/Users/zacg/Projects/cyberpunk-empire"
+      ],
+      "port": 8643
+    }
+  ]
+}

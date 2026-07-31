@@ -1,0 +1,343 @@
+/* ============================================================
+   NEON EMPIRE — character detail (Asher Kraid)
+   ============================================================ */
+
+.char-page {
+  position: relative;
+  background:
+    radial-gradient(
+      1200px 600px at 70% 20%,
+      rgba(139, 92, 246, 0.08),
+      transparent 60%
+    ),
+    radial-gradient(
+      1000px 500px at 30% 80%,
+      rgba(255, 45, 120, 0.06),
+      transparent 60%
+    ),
+    var(--bg);
+  padding: 28px 40px 60px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+
+.back-link:hover {
+  color: var(--cyan);
+}
+
+.char-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 430px) minmax(0, 1fr) minmax(
+      280px,
+      300px
+    );
+  gap: 44px;
+  align-items: start;
+}
+
+/* --- left column --- */
+
+.char-ident {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.char-emblem {
+  width: 84px;
+  height: 84px;
+  color: var(--pink);
+  filter: drop-shadow(0 0 10px rgba(255, 45, 120, 0.6));
+}
+
+.char-name {
+  font-size: clamp(46px, 4.6vw, 74px);
+  letter-spacing: 0.02em;
+}
+
+.char-role {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  color: var(--pink);
+  margin: 10px 0 24px;
+}
+
+.char-tags {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.char-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--text);
+  border: 1px solid var(--pink);
+  padding: 8px 18px;
+  border-radius: 3px;
+}
+
+.char-tag.alt {
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+.char-tabs {
+  display: flex;
+  gap: 34px;
+  margin: 34px 0 30px;
+  border-bottom: 1px solid var(--line-soft);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+}
+
+.char-tabs a {
+  padding: 12px 2px 14px;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+}
+
+.char-tabs a.active {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+}
+.char-tabs a:hover {
+  color: var(--text);
+}
+
+.char-section-title {
+  font-family: var(--font-mono);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--bone);
+  margin-bottom: 16px;
+}
+
+.char-body p {
+  color: #c9c7bf;
+  margin-bottom: 16px;
+  max-width: 46ch;
+}
+
+.char-quote {
+  position: relative;
+  border: 1px solid rgba(255, 45, 120, 0.55);
+  background: rgba(255, 45, 120, 0.05);
+  padding: 22px 46px;
+  margin: 26px 0 30px;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.char-quote .q-mark {
+  position: absolute;
+  font-family: Georgia, serif;
+  font-size: 30px;
+  color: var(--pink);
+  font-style: normal;
+}
+
+.char-quote .q-open {
+  top: 12px;
+  left: 16px;
+}
+.char-quote .q-close {
+  bottom: 6px;
+  right: 16px;
+}
+
+.attr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--line);
+  background: rgba(10, 12, 18, 0.6);
+}
+
+.attr-cell {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.attr-cell:nth-child(odd) {
+  border-right: 1px solid var(--line-soft);
+}
+.attr-cell:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.attr-cell .icon {
+  color: var(--pink);
+  width: 22px;
+  height: 22px;
+}
+
+.attr-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--dim);
+}
+
+.attr-value {
+  font-size: 14px;
+  color: var(--text);
+  margin-top: 3px;
+}
+
+.intel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 28px;
+  padding: 20px 26px;
+  background: var(--pink);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(255, 45, 120, 0.35);
+}
+
+.intel-btn:hover {
+  background: #ff4d8d;
+}
+
+/* --- center portrait --- */
+
+.char-stage {
+  position: relative;
+  text-align: center;
+}
+
+.char-art {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  -webkit-mask-image: linear-gradient(180deg, #000 88%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 88%, transparent 100%);
+}
+
+/* --- right column --- */
+
+.side-panel {
+  border: 1px solid var(--line);
+  background: rgba(8, 10, 15, 0.72);
+  padding: 22px;
+  margin-bottom: 26px;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+}
+
+.side-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--bone);
+  margin-bottom: 14px;
+}
+
+.side-panel p {
+  font-size: 13px;
+  color: #b9b7b0;
+  margin-bottom: 12px;
+}
+.side-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.side-img {
+  width: 100%;
+  border: 1px solid var(--line-soft);
+  margin-bottom: 14px;
+}
+
+.side-sub {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--bone);
+}
+
+.side-sub-note {
+  font-size: 12px;
+  color: var(--dim);
+  margin: 4px 0 10px;
+}
+
+.trait-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trait {
+  border: 1px solid var(--line);
+  background: rgba(12, 14, 20, 0.8);
+  padding: 12px 14px;
+  border-radius: 4px;
+}
+
+.trait-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text);
+}
+
+.trait-name .icon {
+  width: 15px;
+  height: 15px;
+  color: var(--pink);
+}
+.trait-desc {
+  font-size: 12px;
+  color: var(--dim);
+  margin-top: 5px;
+}
+
+@media (max-width: 1180px) {
+  .char-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+  .char-stage {
+    order: -1;
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .char-layout {
+    grid-template-columns: 1fr;
+  }
+  .char-page {
+    padding: 24px 20px 48px;
+  }
+}
