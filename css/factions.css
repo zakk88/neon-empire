@@ -1,0 +1,257 @@
+/* ============================================================
+   NEON EMPIRE — Factions hub
+   Landing page for the three faction dossiers. Not part of a
+   Diffui build spec: composed from the established design
+   language (mono HUD labels, Anton display type, chamfered
+   panels, per-faction accent colour).
+   ============================================================ */
+
+.fac-page {
+  padding: 34px 20px 56px;
+  background:
+    radial-gradient(
+      1200px 600px at 50% 0%,
+      rgba(255, 45, 120, 0.06),
+      transparent 60%
+    ),
+    var(--bg);
+}
+
+.fac-head {
+  max-width: 720px;
+  margin-bottom: 38px;
+}
+
+.fac-kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--cyan);
+  margin-bottom: 14px;
+}
+
+.fac-title {
+  font-size: clamp(46px, 5.4vw, 78px);
+}
+
+.fac-lede {
+  margin-top: 20px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #c9c7bf;
+  max-width: 62ch;
+}
+
+.fac-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 720px;
+  margin: 26px 0 0;
+  padding: 13px 0;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--cyan);
+}
+
+.fac-count .of {
+  color: var(--dim);
+}
+
+/* ---------- the three dossier cards ---------- */
+
+.fac-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 34px;
+}
+
+/* per-card accent, set inline per faction */
+.fac-card {
+  --accent: var(--pink);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 540px;
+  overflow: hidden;
+  border: 0;
+  background: var(--line);
+  /* chamfered corners, drawn as a clipped fill so the outline follows the
+     diagonals (a border can't render on a clip-path cut) */
+  clip-path: polygon(
+    0 0,
+    calc(100% - 22px) 0,
+    100% 22px,
+    100% 100%,
+    22px 100%,
+    0 calc(100% - 22px)
+  );
+  transition: transform 0.3s ease;
+}
+
+.fac-card::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  background: var(--bg-2);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 21px) 0,
+    100% 21px,
+    100% 100%,
+    21px 100%,
+    0 calc(100% - 21px)
+  );
+}
+
+.fac-card:hover {
+  background: var(--accent);
+  transform: translateY(-4px);
+}
+
+.fac-art {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 330px;
+  object-fit: cover;
+  object-position: center 18%;
+  filter: saturate(0.9);
+  transition:
+    transform 0.5s ease,
+    filter 0.3s ease;
+}
+
+.fac-card:hover .fac-art {
+  transform: scale(1.04);
+  filter: saturate(1.1);
+}
+
+/* fade the art into the card body */
+.fac-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 340px;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 6, 10, 0.15) 0%,
+    rgba(5, 6, 10, 0.1) 45%,
+    rgba(10, 12, 18, 0.95) 92%,
+    var(--bg-2) 100%
+  );
+}
+
+.fac-body {
+  position: relative;
+  z-index: 3;
+  margin-top: -78px;
+  padding: 0 22px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.fac-crest {
+  width: 54px;
+  height: 60px;
+  color: var(--accent);
+  filter: drop-shadow(0 0 12px currentColor);
+  margin-bottom: 14px;
+}
+
+.fac-name {
+  font-size: clamp(26px, 2.4vw, 36px);
+  line-height: 1;
+}
+
+.fac-tagline {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  margin-top: 9px;
+}
+
+.fac-desc {
+  margin-top: 15px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #a9a7a0;
+}
+
+/* quick-read stat strip */
+.fac-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.fac-tag {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 5px 9px;
+  text-transform: uppercase;
+}
+
+.fac-open {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 20px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+}
+
+.fac-open .icon {
+  width: 17px;
+  height: 17px;
+  transition: transform 0.25s ease;
+}
+
+.fac-card:hover .fac-open .icon {
+  transform: translateX(5px);
+}
+
+/* whole card is the link */
+.fac-card > a.fac-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+}
+
+@media (max-width: 1080px) {
+  .fac-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .fac-grid {
+    grid-template-columns: 1fr;
+  }
+  .fac-page {
+    padding: 26px 18px 40px;
+  }
+  .fac-card {
+    min-height: 470px;
+  }
+}

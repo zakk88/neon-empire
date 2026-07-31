@@ -14,10 +14,11 @@ world.html        Environment detail — Crown Heights district (nav: WORLD)
 character.html    Character detail — Asher Kraid, Syndicate Enforcer (nav: FACTIONS)
 city.html         City overview — "Every Street Has a Price" + 5 district rail (nav: GAMEPLAY)
 areas.html        8 city areas / weather grid (nav: MEDIA)
+factions.html     Factions hub (nav: FACTIONS) — links the three dossiers below
 enforcers.html    The Enforcers faction profile — SWAT figure, loadout, unit roster
 police.html       Police Force — 4 full-body characters (blue counterpart to enforcers)
 css/base.css      Design tokens, shared nav, footer status bar, buttons (+1440px body cap)
-css/{home,character,city,areas,world,enforcers,police}.css   Per-page styles
+css/{home,character,city,areas,world,enforcers,police,factions}.css   Per-page styles
 css/components.css, css/widgets.css   Section/card/contact styles copied from ~/Projects/cyberpunk-empire (keep in sync)
 js/main.js        Sync clock, home accordion, home parallax, district-rail selection
 assets/           Diffui imagery (.webp), grit.webp texture, compressed .mp4 loops + .jpg posters
@@ -85,6 +86,8 @@ Target 2× the CSS display size (measure it in the browser first). Typical: 5.8 
 
 ## Current State
 
+**2026-07-31 (hub):** Added `factions.html` as a proper hub for the three faction dossiers (Syndicate → `character.html`, Enforcers → `enforcers.html`, Police → `police.html`). The FACTIONS nav item on every page now points at the hub instead of `character.html`, and all three dossiers' back-links return to it. The hub is **not** from a Diffui build spec — it's composed from the established design language, reusing existing art (no new generation). Each card carries its faction's accent; the Enforcers use `--red` rather than `--pink` purely so they read distinctly from the Syndicate on the hub (their own page stays pink, as designed).
+
 **2026-07-31 (later):** Added two pages from a second Diffui build (`authToken=WVu4AbBR3aaU`, 2 pages): `enforcers.html` (The Enforcers — crimson faction profile with segmented presence meters, six-item weapons loadout, six-unit roster rail) and `police.html` (Police Force — blue dossier plus four full-body characters). 17 assets generated (1 high hero with design-reference conditioning, 4 high full-body characters, 12 medium items/portraits) and stored locally. A `--blue` token was added to `base.css` for the Police palette. **Note:** the new design renders show the nav as WORLD/GAMEPLAY/FACTIONS/MEDIA, but the site's established order (WORLD/FACTIONS/GAMEPLAY/MEDIA) was kept on Zack's instruction — all seven pages share it.
 
 **2026-07-31:** Empire status panel now plays a boot sequence on first view (`css/home.css` `ep-*` keyframes + the boot block in `js/main.js`): scanline sweep, map territory drops in and blooms outward via animated `clip-path`, stat rows stagger, bars overshoot then settle with a hot leading edge, numbers scramble through random same-width digits then lock on with decaying jitter, sparkline draws. Once settled the map keeps a slow infinite pulse (`ep-map-pulse` on the pink layer + `ep-map-glow` on the frame, chained after the drop so it takes over `filter`/`transform`). Initial hidden states are scoped to `html.anim` (set by an inline head script) so the panel renders complete without JS or under reduced-motion. The count-up has a guaranteed-settle timeout because `requestAnimationFrame` is suspended in background tabs, and the boot has a 1.5s fallback so an always-hidden embed can never strand the panel at opacity 0.
@@ -114,6 +117,7 @@ Target 2× the CSS display size (measure it in the browser first). Typical: 5.8 
 ## Tech Debt & Known Issues
 
 - Nav tabs (ABILITIES / LORE / RELATIONSHIPS on character page), WISHLIST, and trailer buttons are non-functional placeholders — the design defines no targets.
+- `character.html`'s back-link still reads "BACK TO CHARACTERS" (its design render's wording) but now points at the Factions hub, so the label doesn't quite match the destination. Left as-is because the design PNG is the spec; change the copy to "BACK TO FACTIONS" if consistency with the other two dossiers matters more.
 - The gameplay scene video is sourced from 720p footage, so it renders softer than the other three (1080p+). Re-render at 1080p+ to match.
 - `design/` (11 MB) ships to production unlinked. Harmless, but it's half the deploy size — exclude it if load time ever matters.
 - Browser-pane screenshots render this site downscaled at some viewport sizes; it's a preview-tool artifact, not a site bug.
