@@ -4,10 +4,12 @@
 
 Marketing/lore site for "Neon Empire," a near-future cyberpunk game about building a criminal empire (Blade Runner / Tokyo-at-night aesthetic, set in a fictionalized Copenhagen). Built from a Diffui design-to-code build spec (5 diffusion-rendered page designs). Static vanilla HTML/CSS/JS — no framework, no build step.
 
+**Live:** https://zakk88.github.io/neon-empire/ · **Repo:** https://github.com/zakk88/neon-empire (public)
+
 ## Architecture
 
 ```
-index.html        Home — "Build the Empire. Own the Night." hero + empire status panel
+index.html        Home — hero video + empire status panel + 4 below-fold sections
 world.html        Environment detail — Crown Heights district (nav: WORLD)
 character.html    Character detail — Asher Kraid, Syndicate Enforcer (nav: FACTIONS)
 city.html         City overview — "Every Street Has a Price" + 5 district rail (nav: GAMEPLAY)
@@ -15,19 +17,77 @@ areas.html        8 city areas / weather grid (nav: MEDIA)
 css/base.css      Design tokens, shared nav, footer status bar, buttons (+1440px body cap)
 css/{home,character,city,areas,world}.css   Per-page styles
 css/components.css, css/widgets.css   Section/card/contact styles copied from ~/Projects/cyberpunk-empire (keep in sync)
-js/main.js        Ticking sync clock + feature accordion (home page)
-assets/           Diffui-generated .webp images + grit.webp texture + compressed .mp4 loops (local copies — do NOT hotlink diffui.ai)
+js/main.js        Sync clock, home accordion, home parallax, district-rail selection
+assets/           Diffui imagery (.webp), grit.webp texture, compressed .mp4 loops + .jpg posters
 design/           5 original design reference PNGs (1440×1024) — the source of truth
-.claude/launch.json   `neon-empire` dev server (python3 http.server on port 8642)
+.claude/launch.json   Dev servers: `neon-empire` (8642) and `cyberpunk-empire` (8643)
+.nojekyll         Tells GitHub Pages to skip Jekyll — do not delete
 ```
 
 **Design tokens** (css/base.css `:root`): bg `#05060a`, cyan `#00e5ff`, pink `#ff2d78`, purple `#8b5cf6`, yellow `#ffc233`, bone `#e5e0d1`. Fonts: Anton (display), JetBrains Mono (HUD labels), Inter (body) via Google Fonts.
 
+**Video heroes** (all muted/looping/playsinline, each with a `.jpg` poster pulled from its own first frame):
+`hero-city.mp4` (home) · `char-asher.mp4` (factions) · `gameplay-scene.mp4` (gameplay) · `city-scene.mp4` (world)
+
+## Deployment
+
+**Host:** GitHub Pages, serving `main` branch at repo root. Deploy = push to main; the site updates ~1 minute later.
+
+```bash
+cd ~/Projects/neon\ empire && git add -A && git commit -m "your message" && git push
+```
+
+Verify the deploy actually landed (not just that the push succeeded):
+
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" https://zakk88.github.io/neon-empire/
+```
+
+**Constraints that shaped this setup — don't break them:**
+
+- **All asset paths must stay relative** (`assets/…`, `css/…`). The site is served from the `/neon-empire/` subpath, so a leading `/` breaks every asset. Grep before shipping: `grep -o '\(src\|href\)="/[^"]*"' *.html css/*.css`
+- **The repo must stay public.** GitHub Pages requires it on the free plan. Nothing sensitive is committed; keep it that way (no keys, no tokens).
+- **`.nojekyll` must exist** at the root or Pages runs Jekyll and can drop files.
+- Total site is ~23 MB (~12 MB of it videos, ~11 MB the `design/` reference PNGs, which ship but are unlinked). Well inside Pages' 1 GB limit, but the videos dominate first-load time — compress before adding more (see below).
+
+**If the site ever needs to go private or load faster,** move to Netlify or Cloudflare Pages — both handle private repos and put the videos behind a CDN.
+
+## Asset Pipeline
+
+Source videos/images land in `~/Downloads` from Diffui/HF. Never ship them raw — they're 12–40 MB each. Tools installed via Homebrew: `ffmpeg`, `cwebp` (+ `libtiff`).
+
+**Video** — crop to the container's aspect first (so the framing is intentional), strip audio, compress:
+
+```bash
+ffmpeg -i input.mp4 -vf "crop=W:H:(iw-W)/2:0" -c:v libx264 -preset slow -crf 26 \
+  -pix_fmt yuv420p -an -movflags +faststart output.mp4
+ffmpeg -i output.mp4 -frames:v 1 -q:v 4 output-poster.jpg
+```
+
+- `-an` strips audio (some generated clips ship with an AAC track), `+faststart` lets playback begin before the download finishes.
+- Typical result: 25–40 MB → 1–2 MB with no visible loss. Use CRF 24 for low-res sources, 26 otherwise.
+- Container aspects: home hero backdrop **1440×1008 (1.43:1)**; gameplay/world scene box **1.384:1**; factions portrait **1248×1664**.
+
+**Images:**
+
+```bash
+cwebp -q 84 -m 6 -crop X Y W H -resize W2 H2 input.png -o output.webp
+```
+
+Target 2× the CSS display size (measure it in the browser first). Typical: 5.8 MB → 117 KB.
+
+**Two rules learned the hard way:**
+
+1. **Grep before overwriting a shared asset.** Several files are used on more than one page (`d-underways.webp`, `d-market.webp`, `city-scene.mp4` were all shared). Overwriting one silently changes another page. `grep -rn "asset-name" *.html` first; if it's shared, add a new file instead of replacing.
+2. **Bump the cache-busting version when CSS/JS changes.** Stylesheets are linked as `css/foo.css?v=N`. Browsers hold stale copies otherwise — this caused a real layout bug (a video escaping its container) that looked like a code error but was pure cache.
+
 ## Current State
+
+**2026-07-30 (later):** Published to GitHub Pages (repo created, first commit, Pages enabled, all 5 pages + assets verified live). Home hero, factions, gameplay, and world scenes are now looping videos. Home page got scroll-snap + parallax (hero backdrop drifts at 20% of scroll; oversize reduced to 120% so a 16:9 source shows ~80% of its width) and a gritty fixed-attachment `grit.webp` backdrop behind the lower sections. District rail on gameplay is interactive: pink glow on hover, cyan when selected, drawn with inset shadows so the boxes never resize.
 
 **2026-07-30:** Home page extended with the below-the-fold sections from the cyberpunk-empire home (accordion, districts grid, four-dials grid, contact cards) between the hero and the status bar; site capped at 1440px wide and centered; world.html overview band moved under the scene image.
 
-**2026-07-27:** All 5 pages implemented and visually verified against the design renders at 1440×1024. All imagery generated via the Diffui API (4 high-quality heroes with design-reference conditioning, 16 medium assets) and stored locally in `assets/`. No git repo yet — `git init` + first commit is the natural next step.
+**2026-07-27:** All 5 pages implemented and visually verified against the design renders at 1440×1024. All imagery generated via the Diffui API (4 high-quality heroes with design-reference conditioning, 16 medium assets) and stored locally in `assets/`.
 
 ## Rules / Constraints
 
@@ -39,10 +99,14 @@ design/           5 original design reference PNGs (1440×1024) — the source o
 ## Testing Checklist
 
 1. Run the dev server (Claude: preview_start `neon-empire`; manual: `cd ~/Projects/neon\ empire && python3 -m http.server 8642`).
-2. Check all 5 pages at 1440-wide viewport against `design/*.png`.
-3. Verify no broken images (all `assets/*.webp` referenced paths exist) and no console errors.
+2. Check all 5 pages at a 1440-wide viewport against `design/*.png`.
+3. Verify no broken images/videos and no console errors. Hard-refresh (Cmd+Shift+R) if CSS looks stale, and bump `?v=N` if a stylesheet changed.
+4. Exercise the interactions: home accordion (image swaps) and parallax, gameplay district rail hover/select, video playback on all four pages.
+5. After pushing, confirm the live site returns 200 and spot-check a page in the browser.
 
 ## Tech Debt & Known Issues
 
-- Nav tabs (ABILITIES / LORE / RELATIONSHIPS on character page), WISHLIST, trailer buttons are non-functional placeholders — the design defines no targets.
+- Nav tabs (ABILITIES / LORE / RELATIONSHIPS on character page), WISHLIST, and trailer buttons are non-functional placeholders — the design defines no targets.
+- The gameplay scene video is sourced from 720p footage, so it renders softer than the other three (1080p+). Re-render at 1080p+ to match.
+- `design/` (11 MB) ships to production unlinked. Harmless, but it's half the deploy size — exclude it if load time ever matters.
 - Browser-pane screenshots render this site downscaled at some viewport sizes; it's a preview-tool artifact, not a site bug.
