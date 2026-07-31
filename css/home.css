@@ -672,3 +672,40 @@ body > section.section {
   0%, 100% { filter: brightness(1) saturate(1); transform: scale(1); }
   50% { filter: brightness(1.2) saturate(1.22); transform: scale(1.015); }
 }
+
+/* --- panel outline that follows the chamfered corners ---
+   A `border` only renders on the element's rectangular edges, so clip-path's
+   two diagonal cuts (lower-left, upper-right) came out unstroked. Instead the
+   panel itself becomes the stroke — filled with the line colour and clipped to
+   the chamfer — with an inset pseudo-element carrying the real background,
+   clipped to the same shape 1px smaller. The difference reads as a 1px outline
+   on every edge, diagonals included. */
+
+.empire-panel {
+  border: 0;
+  background: var(--line);
+  backdrop-filter: none;
+}
+
+.empire-panel::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 19px) 0,
+    100% 19px,
+    100% 100%,
+    19px 100%,
+    0 calc(100% - 19px)
+  );
+}
+
+/* keep panel content above the inset fill */
+.empire-panel > * {
+  position: relative;
+  z-index: 1;
+}
