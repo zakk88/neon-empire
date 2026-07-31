@@ -482,7 +482,9 @@ body > section.section {
 
 /* falls from above, lands small at centre, then expands to fill */
 .empire-panel.boot .map-pink {
-  animation: ep-map-drop 1.05s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards;
+  animation:
+    ep-map-drop 1.05s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards,
+    ep-map-pulse 3.8s ease-in-out 2.1s infinite;
 }
 
 @keyframes ep-map-drop {
@@ -631,4 +633,42 @@ body > section.section {
 
 @keyframes ep-fade {
   to { opacity: 1; }
+}
+
+/* --- digits scramble before locking on --- */
+
+.stat-value .count {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-value .count.scrambling {
+  color: var(--cyan);
+  opacity: 0.85;
+}
+
+/* --- settled map keeps a slow breathing pulse --- */
+
+.map-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 45, 120, 0.3), transparent 62%);
+}
+
+.empire-panel.boot .map-frame::before {
+  animation: ep-map-glow 3.8s ease-in-out 2.1s infinite;
+}
+
+@keyframes ep-map-glow {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.42; }
+}
+
+@keyframes ep-map-pulse {
+  0%, 100% { filter: brightness(1) saturate(1); transform: scale(1); }
+  50% { filter: brightness(1.2) saturate(1.22); transform: scale(1.015); }
 }

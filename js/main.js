@@ -103,29 +103,60 @@
     el.textContent = parseFloat(el.dataset.to).toFixed(decimals(el));
   }
 
+  // Digits churn at random ("decoding"), then lock: the value counts up with a
+  // jitter that decays to zero, so it settles rather than snapping.
+  function scrambleText(to, dec) {
+    var intDigits = String(Math.floor(Math.abs(to))).length;
+    var min = Math.pow(10, intDigits - 1);
+    var span = Math.pow(10, intDigits) - min;
+    return (min + Math.random() * span).toFixed(dec);
+  }
+
   function countUp(el, delay) {
     var to = parseFloat(el.dataset.to);
     var dec = decimals(el);
     var done = false;
+    var SCRAMBLE = 380;
+    var COUNT = 640;
+
+    function finish() {
+      if (done) return;
+      done = true;
+      el.classList.remove("scrambling");
+      settle(el);
+    }
+
     setTimeout(function () {
-      var t0 = null;
-      function step(t) {
+      if (done) return;
+      el.classList.add("scrambling");
+      var churn = setInterval(function () {
+        if (done) return clearInterval(churn);
+        el.textContent = scrambleText(to, dec);
+      }, 45);
+
+      setTimeout(function () {
+        clearInterval(churn);
         if (done) return;
-        if (t0 === null) t0 = t;
-        var p = Math.min((t - t0) / DURATION, 1);
-        // easeOutQuint — matches the bars' fast-then-settle feel
-        var eased = 1 - Math.pow(1 - p, 5);
-        el.textContent = (to * eased).toFixed(dec);
-        if (p < 1) requestAnimationFrame(step);
-        else { done = true; settle(el); }
-      }
-      requestAnimationFrame(step);
+        el.classList.remove("scrambling");
+        var t0 = null;
+        function step(t) {
+          if (done) return;
+          if (t0 === null) t0 = t;
+          var p = Math.min((t - t0) / COUNT, 1);
+          // easeOutQuint base, with jitter that fades out as it locks on
+          var base = to * (1 - Math.pow(1 - p, 5));
+          var jitter = Math.pow(1 - p, 2) * (Math.random() - 0.5) * to * 0.5;
+          el.textContent = Math.max(0, base + jitter).toFixed(dec);
+          if (p < 1) requestAnimationFrame(step);
+          else finish();
+        }
+        requestAnimationFrame(step);
+      }, SCRAMBLE);
     }, delay);
-    // rAF is suspended in background tabs, which would strand the number at 0.
-    // Guarantee the final value lands regardless.
-    setTimeout(function () {
-      if (!done) { done = true; settle(el); }
-    }, delay + DURATION + 250);
+
+    // rAF is suspended in background tabs, which would strand the number
+    // mid-scramble. Guarantee the final value lands regardless.
+    setTimeout(finish, delay + SCRAMBLE + COUNT + 250);
   }
 
   function boot() {
