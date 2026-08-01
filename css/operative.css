@@ -1,0 +1,456 @@
+/* ============================================================
+   NEON EMPIRE — Police Force Operative (city enforcement unit)
+   Full-bleed operative scene with the dossier panel overlaid left.
+   ============================================================ */
+
+.op-page {
+  position: relative;
+  min-height: 940px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* ---------- the scene ---------- */
+
+.op-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.op-scene img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 72%;
+  object-fit: cover;
+  object-position: center 12%;
+}
+
+/* fade the art into the page on the left so the dossier stays readable */
+.op-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      var(--bg) 22%,
+      rgba(5, 6, 10, 0.82) 38%,
+      rgba(5, 6, 10, 0.1) 62%,
+      transparent 78%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(5, 6, 10, 0.55) 0%,
+      transparent 22%,
+      transparent 76%,
+      rgba(5, 6, 10, 0.85) 100%
+    );
+}
+
+.op-inner {
+  position: relative;
+  z-index: 2;
+  padding: 24px 34px 40px;
+}
+
+.op-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+
+.op-back:hover {
+  color: var(--cyan);
+}
+
+/* ---------- identity ---------- */
+
+.op-ident {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+
+.op-badge {
+  width: 132px;
+  height: 150px;
+  color: var(--cyan);
+  filter: drop-shadow(0 0 16px rgba(0, 229, 255, 0.45));
+}
+
+.op-title {
+  font-size: clamp(52px, 6vw, 88px);
+  line-height: 0.9;
+  white-space: nowrap;
+}
+
+.op-sub {
+  font-family: var(--font-mono);
+  font-size: clamp(15px, 1.6vw, 23px);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--cyan);
+  margin-top: 12px;
+  white-space: nowrap;
+}
+
+.op-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin: 22px 0 24px;
+}
+
+.op-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 9px 18px;
+}
+
+.op-tag.on {
+  color: var(--cyan);
+  border-color: var(--cyan);
+}
+
+/* ---------- dossier panel ---------- */
+
+.op-dossier {
+  max-width: 560px;
+  padding: 20px 24px 0;
+  background: rgba(6, 10, 16, 0.82);
+  backdrop-filter: blur(6px);
+  /* corners chamfered on all four; drawn as a clipped fill so the outline
+     follows the diagonals (a border cannot render on a clip-path cut) */
+  position: relative;
+  background: var(--line);
+  clip-path: polygon(
+    18px 0,
+    calc(100% - 18px) 0,
+    100% 18px,
+    100% calc(100% - 18px),
+    calc(100% - 18px) 100%,
+    18px 100%,
+    0 calc(100% - 18px),
+    0 18px
+  );
+}
+
+.op-dossier::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  background: rgba(6, 10, 16, 0.9);
+  backdrop-filter: blur(6px);
+  clip-path: polygon(
+    17px 0,
+    calc(100% - 17px) 0,
+    100% 17px,
+    100% calc(100% - 17px),
+    calc(100% - 17px) 100%,
+    17px 100%,
+    0 calc(100% - 17px),
+    0 17px
+  );
+}
+
+.op-dossier > * {
+  position: relative;
+  z-index: 1;
+}
+
+.op-dos-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.op-dos-title {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--cyan);
+}
+
+.op-dos-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  color: var(--dim);
+}
+
+.op-dos-body {
+  padding: 16px 0 6px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: #b9b7b0;
+  max-width: 46ch;
+}
+
+/* stat rows */
+.op-stat {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 150px 44px;
+  gap: 16px;
+  align-items: center;
+  padding: 13px 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.op-stat .icon {
+  width: 30px;
+  height: 30px;
+  color: var(--pink);
+}
+
+.op-stat-name {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+.op-stat-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.op-stat-val {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--pink);
+  text-align: right;
+}
+
+/* skewed segmented meter, as in the design */
+.seg-meter {
+  display: flex;
+  gap: 4px;
+}
+
+.seg-meter i {
+  flex: 1;
+  height: 13px;
+  transform: skewX(-20deg);
+  background: transparent;
+  border: 1px solid rgba(255, 45, 120, 0.45);
+}
+
+.seg-meter i.on {
+  background: var(--pink);
+  border-color: var(--pink);
+  box-shadow: 0 0 7px rgba(255, 45, 120, 0.55);
+}
+
+/* dossier footer strip */
+.op-dos-foot {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) 34px;
+  gap: 14px;
+  align-items: center;
+  margin-top: 4px;
+  padding: 14px 0 16px;
+  border-top: 1px solid var(--line-soft);
+  font-family: var(--font-mono);
+}
+
+.op-dos-foot .lbl {
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  color: var(--dim);
+}
+
+.op-dos-foot .val {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  margin-top: 5px;
+}
+
+.op-dos-foot .val.warn {
+  color: var(--pink);
+}
+.op-dos-foot .val.ok {
+  color: var(--cyan);
+}
+.op-dos-foot .mark {
+  color: var(--cyan);
+  width: 26px;
+  height: 26px;
+}
+
+/* ---------- neon overlays on the scene ---------- */
+
+.op-neon {
+  position: absolute;
+  right: 34px;
+  top: 120px;
+  z-index: 3;
+  width: 190px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.neon-line {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  line-height: 1.06;
+  font-size: 27px;
+}
+
+.neon-line.pink {
+  color: #ff6ba0;
+  text-shadow:
+    0 0 6px rgba(255, 45, 120, 0.9),
+    0 0 22px rgba(255, 45, 120, 0.6);
+}
+
+.neon-line.ice {
+  color: #dff4ff;
+  margin-top: 22px;
+  text-shadow:
+    0 0 6px rgba(180, 230, 255, 0.8),
+    0 0 24px rgba(0, 200, 255, 0.5);
+}
+
+.op-neon .crest {
+  width: 60px;
+  height: 60px;
+  margin: 26px auto 8px;
+  color: var(--cyan);
+  opacity: 0.75;
+  filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.5));
+}
+
+.op-neon .crest-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.34em;
+  color: rgba(190, 235, 255, 0.75);
+  line-height: 1.7;
+}
+
+.op-sector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 26px;
+  font-family: var(--font-mono);
+}
+
+.op-sector .icon {
+  width: 13px;
+  height: 13px;
+  color: var(--pink);
+}
+.op-sector .s-lbl {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+.op-sector .s-sub {
+  font-size: 7.5px;
+  letter-spacing: 0.16em;
+  color: var(--dim);
+  margin-top: 3px;
+}
+
+.op-sector .s-num {
+  font-family: var(--font-display);
+  font-size: 34px;
+  line-height: 1;
+  color: var(--pink);
+  text-shadow: 0 0 12px rgba(255, 45, 120, 0.6);
+}
+
+.op-motto {
+  margin-top: 22px;
+  padding: 9px 6px;
+  border: 1px solid rgba(0, 229, 255, 0.6);
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  color: #cdf3ff;
+  background: rgba(0, 60, 90, 0.25);
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.7);
+}
+
+/* the big ghosted unit code behind the figure */
+.op-ghost {
+  position: absolute;
+  right: 250px;
+  top: 150px;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 92px;
+  line-height: 0.86;
+  letter-spacing: 0.04em;
+  color: rgba(180, 205, 225, 0.13);
+  pointer-events: none;
+  writing-mode: vertical-rl;
+}
+
+@media (max-width: 1240px) {
+  .op-neon,
+  .op-ghost {
+    display: none;
+  }
+  .op-scene img {
+    width: 100%;
+    opacity: 0.5;
+  }
+}
+
+@media (max-width: 760px) {
+  .op-inner {
+    padding: 20px 18px 34px;
+  }
+  .op-ident {
+    grid-template-columns: 84px minmax(0, 1fr);
+    gap: 16px;
+  }
+  .op-badge {
+    width: 84px;
+    height: 96px;
+  }
+  .op-title {
+    white-space: normal;
+  }
+  .op-sub {
+    white-space: normal;
+  }
+  .op-stat {
+    grid-template-columns: 28px minmax(0, 1fr) 40px;
+    gap: 10px;
+  }
+  .op-stat .seg-meter {
+    display: none;
+  }
+  .op-dos-foot {
+    grid-template-columns: 1fr 1fr;
+  }
+}
