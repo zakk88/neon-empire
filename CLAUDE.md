@@ -14,7 +14,7 @@ world.html        Environment detail — Crown Heights district (nav: WORLD)
 character.html    Character detail — Asher Kraid, Syndicate Enforcer (nav: FACTIONS)
 city.html         City overview — "Every Street Has a Price" + 5 district rail (nav: GAMEPLAY)
 areas.html        8 city areas / weather grid (nav: MEDIA)
-factions.html     Factions hub (nav: FACTIONS) — links the three dossiers below
+factions.html     Factions Overview (nav: FACTIONS) — 4 faction cards + featured panel
 operative.html    Police Force — operative dossier (shares character.css via .theme-police)
 hackers.html      Phantom Protocol — hacker syndicate dossier (shares character.css via .theme-hacker)
 police.html       Police Force — 4 full-body characters (NOT linked from the hub; reachable by URL only)
@@ -24,7 +24,7 @@ css/character.css  Shared detail-page structure — Syndicate + Police Force bot
 css/components.css, css/widgets.css   Section/card/contact styles copied from ~/Projects/cyberpunk-empire (keep in sync)
 js/main.js        Sync clock, home accordion, home parallax, district-rail selection
 assets/           Diffui imagery (.webp), grit.webp texture, compressed .mp4 loops + .jpg posters
-design/           9 original design reference PNGs (1440×1024) — the source of truth
+design/           10 original design reference PNGs (1440×1024) — the source of truth
 .claude/launch.json   Dev servers: `neon-empire` (8642) and `cyberpunk-empire` (8643)
 .nojekyll         Tells GitHub Pages to skip Jekyll — do not delete
 ```
@@ -87,6 +87,8 @@ Target 2× the CSS display size (measure it in the browser first). Typical: 5.8 
 2. **Bump the cache-busting version when CSS/JS changes.** Stylesheets are linked as `css/foo.css?v=N`. Browsers hold stale copies otherwise — this caused a real layout bug (a video escaping its container) that looked like a code error but was pure cache.
 
 ## Current State
+
+**2026-07-31 (factions overview):** `factions.html` was rebuilt from the `Factions_Overview.md` Diffui build (`authToken=51p9t5EwEhE3`), replacing the hand-composed hub with the designed page: full-bleed banner-lit city backdrop, the FACTIONS headline, four chamfered faction cards (Syndicate / Enforcer / The Seekers / Outcasts, each with its own accent, emblem, portrait and number badge) and the cyan featured-faction panel. Six assets generated (2 high with design-reference conditioning, 4 medium card portraits). **The design names four factions but only three dossiers exist**, so cards map: Syndicate → `character.html`, Enforcer → `operative.html`, The Seekers → `hackers.html` (nearest match — a knowledge/data faction, but *not* the same name as Phantom Protocol), Outcasts → no page yet, rendered in a muted `.is-pending` state with no link. Both mismatches need Zack's call.
 
 **2026-07-31 (hackers):** Built `hackers.html` from the `Hacker_Faction_Detail.md` Diffui build (`authToken=Wa7Ne87Blvey`) — Phantom Protocol, a hacker-syndicate dossier. The build's own prompt says "follow the same format as the Character detail screen", so it reuses `character.css` with a new `.theme-hacker` (violet). Two assets generated: `hacker-hero.webp` (high, design-reference conditioned; needed one retry after a 524) and `null-grid.webp` (medium). Added a `.side-name` class for the faction-leader panel and `.char-tabs.compact` because this page has five tabs where the others have four. **This replaced `enforcers.html` on Zack's instruction** — that page, `css/enforcers.css` and its 13 assets were deleted again and the hub's third card now opens Phantom Protocol. Restore with `git checkout <commit>^ -- enforcers.html css/enforcers.css assets/...` if it's wanted back.
 
