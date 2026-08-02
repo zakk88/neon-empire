@@ -15,11 +15,12 @@ character.html    Character detail — Asher Kraid, Syndicate Enforcer (nav: FAC
 city.html         City overview — "Every Street Has a Price" + 5 district rail (nav: GAMEPLAY)
 areas.html        8 city areas / weather grid (nav: MEDIA)
 factions.html     Factions hub (nav: FACTIONS) — links the three dossiers below
-operative.html    Police Force — city enforcement unit / operative dossier
+operative.html    Police Force — operative dossier (shares character.css via .theme-police)
 enforcers.html    The Enforcers faction profile — SWAT figure, loadout, unit roster
 police.html       Police Force — 4 full-body characters (NOT linked from the hub; reachable by URL only)
 css/base.css      Design tokens, shared nav, footer status bar, buttons (+1440px body cap)
-css/{home,character,city,areas,world,operative,enforcers,police,factions}.css   Per-page styles
+css/{home,character,city,areas,world,enforcers,police,factions}.css   Per-page styles
+css/character.css  Shared detail-page structure — Syndicate + Police Force both use it
 css/components.css, css/widgets.css   Section/card/contact styles copied from ~/Projects/cyberpunk-empire (keep in sync)
 js/main.js        Sync clock, home accordion, home parallax, district-rail selection
 assets/           Diffui imagery (.webp), grit.webp texture, compressed .mp4 loops + .jpg posters
@@ -86,6 +87,8 @@ Target 2× the CSS display size (measure it in the browser first). Typical: 5.8 
 2. **Bump the cache-busting version when CSS/JS changes.** Stylesheets are linked as `css/foo.css?v=N`. Browsers hold stale copies otherwise — this caused a real layout bug (a video escaping its container) that looked like a code error but was pure cache.
 
 ## Current State
+
+**2026-07-31 (shared detail layout):** `operative.html` was rebuilt on the Syndicate page's structure so both faction detail pages share one layout. `css/character.css` is now the single structure sheet: its accents are driven by `--accent` / `--accent-ink` / `--accent-hover` / `--accent-wash` / `--accent-line` / `--accent-glow`, defaulting to the Syndicate's pink, with `.char-page.theme-police` overriding them to cyan. `css/operative.css` (the old bespoke full-bleed layout) was deleted. Left/right column copy on the Police page is placeholder pending Zack's content; the centre video (`op-hero.mp4`) is final. **Editing `character.css` now affects both pages** — use the theme class for anything faction-specific.
 
 **2026-07-31 (hub rework):** Hub now shows three cards — Syndicate → `character.html`, **Police Force** → `operative.html` (card renamed from "Enforcement Unit" so it matches that page's own h1), and **The Enforcers** → `enforcers.html`, restored from git along with `css/enforcers.css` and its 13 assets (which also replaced the short-lived redirect stub). `police.html` (the 4-character roster) is deliberately **unlinked from the hub but still deployed** — reachable by direct URL, kept for later.
 

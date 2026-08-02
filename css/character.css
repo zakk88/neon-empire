@@ -3,6 +3,13 @@
    ============================================================ */
 
 .char-page {
+  /* accent tokens — the Syndicate default; .theme-police overrides them */
+  --accent: var(--pink);
+  --accent-ink: #fff;
+  --accent-hover: #ff4d8d;
+  --accent-wash: rgba(255, 45, 120, 0.05);
+  --accent-line: rgba(255, 45, 120, 0.55);
+  --accent-glow: rgba(255, 45, 120, 0.35);
   position: relative;
   background:
     radial-gradient(
@@ -55,8 +62,8 @@
 .char-emblem {
   width: 84px;
   height: 84px;
-  color: var(--pink);
-  filter: drop-shadow(0 0 10px rgba(255, 45, 120, 0.6));
+  color: var(--accent);
+  filter: drop-shadow(0 0 10px var(--accent-line));
 }
 
 .char-name {
@@ -69,7 +76,7 @@
   font-size: 24px;
   font-weight: 700;
   letter-spacing: 0.28em;
-  color: var(--pink);
+  color: var(--accent);
   margin: 10px 0 24px;
 }
 
@@ -84,7 +91,7 @@
   font-size: 11px;
   letter-spacing: 0.18em;
   color: var(--text);
-  border: 1px solid var(--pink);
+  border: 1px solid var(--accent);
   padding: 8px 18px;
   border-radius: 3px;
 }
@@ -135,8 +142,8 @@
 
 .char-quote {
   position: relative;
-  border: 1px solid rgba(255, 45, 120, 0.55);
-  background: rgba(255, 45, 120, 0.05);
+  border: 1px solid var(--accent-line);
+  background: var(--accent-wash);
   padding: 22px 46px;
   margin: 26px 0 30px;
   font-style: italic;
@@ -148,7 +155,7 @@
   position: absolute;
   font-family: Georgia, serif;
   font-size: 30px;
-  color: var(--pink);
+  color: var(--accent);
   font-style: normal;
 }
 
@@ -184,7 +191,7 @@
 }
 
 .attr-cell .icon {
-  color: var(--pink);
+  color: var(--accent);
   width: 22px;
   height: 22px;
 }
@@ -209,8 +216,8 @@
   width: 100%;
   margin-top: 28px;
   padding: 20px 26px;
-  background: var(--pink);
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-ink);
   font-family: var(--font-mono);
   font-size: 14px;
   font-weight: 700;
@@ -218,11 +225,11 @@
   border: 0;
   border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 0 24px rgba(255, 45, 120, 0.35);
+  box-shadow: 0 0 24px var(--accent-glow);
 }
 
 .intel-btn:hover {
-  background: #ff4d8d;
+  background: var(--accent-hover);
 }
 
 /* --- center portrait --- */
@@ -315,7 +322,7 @@
 .trait-name .icon {
   width: 15px;
   height: 15px;
-  color: var(--pink);
+  color: var(--accent);
 }
 .trait-desc {
   font-size: 12px;
@@ -340,4 +347,19 @@
   .char-page {
     padding: 24px 20px 48px;
   }
+}
+
+/* --- Police Force theme: same structure, cyan palette --- */
+
+.char-page.theme-police {
+  --accent: var(--cyan);
+  --accent-ink: #041014;
+  --accent-hover: #4df0ff;
+  --accent-wash: rgba(0, 229, 255, 0.06);
+  --accent-line: rgba(0, 229, 255, 0.5);
+  --accent-glow: rgba(0, 229, 255, 0.35);
+  background:
+    radial-gradient(1200px 600px at 70% 20%, rgba(0, 229, 255, 0.07), transparent 60%),
+    radial-gradient(1000px 500px at 30% 80%, rgba(61, 155, 255, 0.06), transparent 60%),
+    var(--bg);
 }
