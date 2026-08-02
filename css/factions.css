@@ -120,20 +120,27 @@
 /* ---------- the four faction cards ---------- */
 
 .fo-cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+  /* fanned deck: cards overlap and angle away, read front-to-back left→right */
+  display: flex;
+  align-items: flex-end;
+  perspective: 1800px;
+  perspective-origin: 38% 50%;
 }
 
 .fo-card {
   --accent: var(--pink);
   position: relative;
+  flex: 0 0 272px;
+  margin-left: -26px;
   min-height: 462px;
+  transform-origin: left center;
+  transform: rotateY(16deg);
+  box-shadow: -20px 18px 42px rgba(0, 0, 0, 0.62);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   overflow: hidden;
-  padding: 0 16px 16px;
+  padding: 0 16px 16px 36px;
   /* the outline is a clipped fill so it follows the chamfered corners */
   background: color-mix(in srgb, var(--accent) 55%, transparent);
   clip-path: polygon(
@@ -145,8 +152,30 @@
     0 calc(100% - 20px)
   );
   transition:
-    transform 0.3s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease,
+    filter 0.3s ease,
     background 0.3s ease;
+}
+
+/* leftmost card sits in front; each one behind steps back and dims slightly */
+.fo-card:first-child {
+  margin-left: 0;
+}
+.fo-card:nth-child(1) {
+  z-index: 4;
+}
+.fo-card:nth-child(2) {
+  z-index: 3;
+  filter: brightness(0.9);
+}
+.fo-card:nth-child(3) {
+  z-index: 2;
+  filter: brightness(0.82);
+}
+.fo-card:nth-child(4) {
+  z-index: 1;
+  filter: brightness(0.74);
 }
 
 .fo-card::before {
@@ -171,12 +200,22 @@
 }
 
 .fo-card:hover {
-  transform: translateY(-5px);
+  z-index: 6;
+  transform: rotateY(3deg) translateZ(80px) translateY(-8px);
+  filter: brightness(1.04);
   background: var(--accent);
+  box-shadow: -26px 26px 60px rgba(0, 0, 0, 0.72);
 }
 
 /* first card reads as pre-selected in the design */
+.fo-card.is-active:hover {
+  z-index: 6;
+  transform: rotateY(3deg) translateZ(80px) translateY(-8px);
+}
+
 .fo-card.is-active {
+  z-index: 5;
+  transform: rotateY(7deg) translateZ(46px);
   background: var(--accent);
   box-shadow: 0 0 34px color-mix(in srgb, var(--accent) 30%, transparent);
 }
@@ -186,7 +225,7 @@
   top: 0;
   left: 0;
   z-index: 3;
-  padding: 5px 12px 6px;
+  padding: 5px 12px 6px 36px;
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 700;
@@ -213,7 +252,7 @@
 .fo-emblem {
   position: absolute;
   top: 46px;
-  left: 14px;
+  left: 34px;
   z-index: 2;
   width: 92px;
   height: 100px;
@@ -479,7 +518,22 @@
   opacity: 0.85;
 }
 
+/* flat, non-overlapping stack on narrow screens */
 @media (max-width: 1180px) {
+  .fo-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    perspective: none;
+  }
+  .fo-card,
+  .fo-card.is-active,
+  .fo-card:hover {
+    flex: initial;
+    margin-left: 0;
+    transform: none;
+    filter: none;
+  }
   .fo-stage {
     grid-template-columns: 1fr;
   }
