@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting to the Police Force Operative dossier | Neon Empire</title>
+  <!-- The Enforcers page was replaced by the Police Force Operative dossier.
+       GitHub Pages is static, so the redirect has to be client-side: the
+       canonical link points search engines at the new URL, the meta refresh
+       covers no-JS, and location.replace keeps the dead URL out of history. -->
+  <link rel="canonical" href="operative.html" />
+  <meta name="robots" content="noindex" />
+  <meta http-equiv="refresh" content="0; url=operative.html" />
+  <script>
+    location.replace("operative.html" + location.search + location.hash);
+  </script>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #05060a;
+      color: #8a8f9a;
+      font-family: "JetBrains Mono", "SF Mono", Menlo, monospace;
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-align: center;
+    }
+    a { color: #00e5ff; }
+  </style>
+</head>
+<body>
+  <p>
+    THIS DOSSIER HAS MOVED.<br /><br />
+    <a href="operative.html">CONTINUE TO THE POLICE FORCE OPERATIVE &rarr;</a>
+  </p>
+</body>
+</html>
