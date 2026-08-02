@@ -31,7 +31,7 @@ design/           8 original design reference PNGs (1440×1024) — the source o
 **Design tokens** (css/base.css `:root`): bg `#05060a`, cyan `#00e5ff`, pink `#ff2d78`, purple `#8b5cf6`, yellow `#ffc233`, bone `#e5e0d1`. Fonts: Anton (display), JetBrains Mono (HUD labels), Inter (body) via Google Fonts.
 
 **Video heroes** (all muted/looping/playsinline, each with a `.jpg` poster pulled from its own first frame):
-`hero-city.mp4` (home) · `char-asher.mp4` (factions) · `gameplay-scene.mp4` (gameplay) · `city-scene.mp4` (world)
+`hero-city.mp4` (home) · `char-asher.mp4` (Syndicate) · `gameplay-scene.mp4` (gameplay) · `city-scene.mp4` (world) · `op-hero.mp4` (Police Force operative)
 
 ## Deployment
 

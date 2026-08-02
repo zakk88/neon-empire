@@ -18,7 +18,8 @@
   z-index: 0;
 }
 
-.op-scene img {
+.op-scene img,
+.op-scene video {
   position: absolute;
   top: 0;
   right: 0;
@@ -419,7 +420,8 @@
   .op-ghost {
     display: none;
   }
-  .op-scene img {
+  .op-scene img,
+  .op-scene video {
     width: 100%;
     opacity: 0.5;
   }
