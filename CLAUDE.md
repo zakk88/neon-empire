@@ -15,10 +15,11 @@ character.html    Character detail — Asher Kraid, Syndicate Enforcer (nav: FAC
 city.html         City overview — "Every Street Has a Price" + 5 district rail (nav: GAMEPLAY)
 areas.html        8 city areas / weather grid (nav: MEDIA)
 factions.html     Factions hub (nav: FACTIONS) — links the three dossiers below
-operative.html    Police Force Operative — city enforcement unit dossier (replaced enforcers.html)
-police.html       Police Force — 4 full-body characters
+operative.html    Police Force — city enforcement unit / operative dossier
+enforcers.html    The Enforcers faction profile — SWAT figure, loadout, unit roster
+police.html       Police Force — 4 full-body characters (NOT linked from the hub; reachable by URL only)
 css/base.css      Design tokens, shared nav, footer status bar, buttons (+1440px body cap)
-css/{home,character,city,areas,world,operative,police,factions}.css   Per-page styles
+css/{home,character,city,areas,world,operative,enforcers,police,factions}.css   Per-page styles
 css/components.css, css/widgets.css   Section/card/contact styles copied from ~/Projects/cyberpunk-empire (keep in sync)
 js/main.js        Sync clock, home accordion, home parallax, district-rail selection
 assets/           Diffui imagery (.webp), grit.webp texture, compressed .mp4 loops + .jpg posters
@@ -86,7 +87,9 @@ Target 2× the CSS display size (measure it in the browser first). Typical: 5.8 
 
 ## Current State
 
-**2026-07-31 (operative):** Built `operative.html` from a third Diffui build (`Police_Force_Characters.md`, `authToken=iA1uHAjPWUg5`, single page) — a Police Force Operative dossier: chamfered dossier panel with four skewed segmented stat meters (Authority 88 / Mobility 76 / Surveillance 92 / Combat Response 85), clearance footer, and the armored operative on a rain-soaked street with the neon signage rendered as HTML/CSS overlays rather than baked into the art. **This replaced `enforcers.html` on Zack's instruction** — `css/enforcers.css` and the 13 Enforcer-only assets were deleted, the hub's Enforcers card now points at the operative, and `enforcers.html` itself was kept as a client-side redirect stub (canonical + meta refresh + `location.replace`) since GitHub Pages can't do server-side redirects. The build doc's first fetch returned a Cloudflare 502; retrying got the full file (verified by checking all five endpoint blocks were present, per the doc's own anti-summarisation warning).
+**2026-07-31 (hub rework):** Hub now shows three cards — Syndicate → `character.html`, **Police Force** → `operative.html` (card renamed from "Enforcement Unit" so it matches that page's own h1), and **The Enforcers** → `enforcers.html`, restored from git along with `css/enforcers.css` and its 13 assets (which also replaced the short-lived redirect stub). `police.html` (the 4-character roster) is deliberately **unlinked from the hub but still deployed** — reachable by direct URL, kept for later.
+
+**2026-07-31 (operative):** Built `operative.html` from a third Diffui build (`Police_Force_Characters.md`, `authToken=iA1uHAjPWUg5`, single page) — a Police Force Operative dossier: chamfered dossier panel with four skewed segmented stat meters (Authority 88 / Mobility 76 / Surveillance 92 / Combat Response 85), clearance footer, and the armored operative on a rain-soaked street with the neon signage rendered as HTML/CSS overlays rather than baked into the art. **This replaced `enforcers.html` on Zack's instruction** — `css/enforcers.css` and the 13 Enforcer-only assets were deleted, the hub's Enforcers card now points at the operative,. (Both the page and the redirect stub that briefly replaced it were later reverted — see the hub rework entry above.) The build doc's first fetch returned a Cloudflare 502; retrying got the full file (verified by checking all five endpoint blocks were present, per the doc's own anti-summarisation warning).
 
 **2026-07-31 (hub):** Added `factions.html` as a proper hub for the three faction dossiers (Syndicate → `character.html`, Enforcers → `enforcers.html`, Police → `police.html`). The FACTIONS nav item on every page now points at the hub instead of `character.html`, and all three dossiers' back-links return to it. The hub is **not** from a Diffui build spec — it's composed from the established design language, reusing existing art (no new generation). Each card carries its faction's accent; the Enforcers use `--red` rather than `--pink` purely so they read distinctly from the Syndicate on the hub (their own page stays pink, as designed).
 
