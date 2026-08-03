@@ -350,7 +350,12 @@ html {
   scroll-snap-type: y proximity;
 }
 
-.hero,
+/* Only the below-the-fold sections are snap targets. The hero deliberately
+   is NOT one: its top sits below the nav, so snapping to it yanked the page
+   down on load and hid the navigation. With no snap point near the top, the
+   page rests at 0 with the nav visible and the hero scrolls freely, which is
+   also what lets the backdrop parallax actually play out instead of being
+   pulled straight back to the top. */
 body > section.section {
   scroll-snap-align: start;
 }
